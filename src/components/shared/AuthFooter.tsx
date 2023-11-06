@@ -92,6 +92,19 @@ export default function AuthFooter() {
                 <span className="tabular-nums">support@autodrop.me</span>
               </Link>
             </li>
+            <li>
+              <Link
+                to="https://t.me/autodrop_community"
+                className="text-sm text-gray-500 inline-flex items-center gap-2 align-middle"
+              >
+                <Icon
+                  icon="ri:telegram-line"
+                  width={20}
+                  height={20}
+                />
+                <span className="tabular-nums">Telegram</span>
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="border-t border-t-gray-200 pt-4">

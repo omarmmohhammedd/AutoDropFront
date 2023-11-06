@@ -33,7 +33,7 @@ export const MiniDashboardSingleCard: FC<{ item: ItemInterface }> = ({ item }): 
           variants={MoveToTop}
           className="text-lg font-bold text-neutral-800 tabular-nums"
         >
-          {Number(item.value).toFixed(3)}
+          {Number(item.value)  % 1 !== 0 ? Number(item.value).toFixed(3) :Number(item.value) }
         </motion.p>
         <motion.p
           animate="visible"

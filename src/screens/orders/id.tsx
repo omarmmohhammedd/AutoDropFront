@@ -791,10 +791,10 @@ export default function id() {
       const inputValue = e.target.value;
       const englishLettersRegex = /^[A-Za-z0-9\s]+$/;
       if ( englishLettersRegex.test(inputValue))   {
-        setErrors({})
+        setErrors(undefined)
         handleChange(e)
       }
-      else  setErrors({[e?.target.name]:'Add Letters Only In English'})
+      else  setErrors('Add Letters Only In English')
       
     }
     const {
@@ -810,6 +810,7 @@ export default function id() {
       } catch (error: AxiosError | any) {
         const err = error.response;
         if (error instanceof AxiosError) {
+          console.log(err.data)
           setErrors(err.data.message);
         }
       } finally {
@@ -847,7 +848,7 @@ export default function id() {
               onChange={(e)=>handelChangeInput(e,handleChange)}
             ></textarea>
           </div>
-          {errors?.notes ? <p className="form-error text-center !block">{errors?.notes}</p> : null}
+          {errors ? <p className="form-error text-center !block">{errors}</p> : null}
         </div>
         <div>
           <div className="flex gap-2 flex-wrap">
