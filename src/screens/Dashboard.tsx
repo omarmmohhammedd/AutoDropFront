@@ -81,14 +81,6 @@ const vendorCards: ItemInterface[] = [
     type: undefined
   },
   {
-    color: 'text-teal-500',
-    icon: 'solar:wallet-linear',
-    title: 'Earnings',
-    key: 'total_earnings',
-    value: 0,
-    type: undefined
-  },
-  {
     color: 'text-orange-500',
     icon: 'ph:shopping-bag-bold',
     title: 'Total products',
@@ -119,7 +111,7 @@ export default function Dashboard() {
   async function GetDashboard() {
     try {
       const { data } = await axiosInstance.get('dashboard');
-      // console.log(data);
+      console.log(data);
       setDashboard(data);
       setCards((_cards) => {
         return _cards.map((card) => {

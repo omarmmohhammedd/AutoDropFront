@@ -787,19 +787,9 @@ export default function id() {
   function PlaceOrderForm({ item, unpaid_amount }: any) {
     const [disabled, setDisabled] = useState<boolean>(false);
     const [errors, setErrors] = useState<any>();
-    const handelChangeInput = (e:any,handleChange:any)=>{
-      const inputValue = e.target.value;
-      const englishLettersRegex = /^[A-Za-z0-9\s]+$/;
-      if ( englishLettersRegex.test(inputValue))   {
-        setErrors(undefined)
-        handleChange(e)
-      }
-      else  setErrors('Add Letters Only In English')
-      
-    }
     const {
-      formik: { handleSubmit, handleChange, values }
-    } = useForm({ initialValues: { id: item?.id, notes: undefined }, submitHandler: SendOrder });
+      formik: { handleSubmit }
+    } = useForm({ initialValues: { id: item?.id }, submitHandler: SendOrder });
   
     async function SendOrder(val: any, helpers: any) {
       try {
@@ -839,15 +829,6 @@ export default function id() {
             <span className="font-bold text-teal-600">{CurrencyFormatter(unpaid_amount + order.shippingFee|| 0)}</span>{' '}
             and verify first that that amount is already available on the credit card
           </p>
-          <div className="form-group !my-4">
-            <textarea
-              name="notes"
-              placeholder="Place order notes here.."
-              className="form-textarea form-outline"
-              value={values?.notes}
-              onChange={(e)=>handelChangeInput(e,handleChange)}
-            ></textarea>
-          </div>
           {errors ? <p className="form-error text-center !block">{errors}</p> : null}
         </div>
         <div>
