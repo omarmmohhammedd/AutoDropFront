@@ -119,7 +119,7 @@ export default function Dashboard() {
           if (value) {
             return {
               ...card,
-              value: card.type === 'currency' ? CurrencyFormatter(Number(value || 0)) : value
+              value: card.type === 'currency' ?   Number(value)  % 1 !== 0 ?CurrencyFormatter(Number(Number(value).toFixed(3)) || 0)  :CurrencyFormatter(value || 0)   : value
             };
           }
           return card;
