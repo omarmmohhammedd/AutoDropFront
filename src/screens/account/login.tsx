@@ -118,7 +118,7 @@ export default function login() {
               <p className="text-center text-white/60 text-sm p-2">
                 For new account, your should install our application in your store first.{' '}
                 <a
-                  href="https://apps.salla.sa/ar/app/1931877074"
+                  href="https://apps.salla.sa/ar/app/1090140720"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-secondary font-medium "
