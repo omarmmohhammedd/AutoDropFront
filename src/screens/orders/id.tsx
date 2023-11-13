@@ -74,8 +74,6 @@ export default function id() {
          })
         
       }))
-      console.log(order?.shipping.address.city_en || order?.shipping.address.city)
-      console.log(getProvince(order?.shipping.address.city))
       setShippingProducts(arr)
     })()
     setCitiesData(Object.values(cities))
@@ -89,15 +87,7 @@ export default function id() {
   const handlePrintPage = useCallback(function () {
     window.print();
   }, []);
-  const AliExpressOrder = async(values:any)=>{
-    // await axiosInstance.post('/aliexpress/orders/place-order',{id:order.id,shippingData:{'country':'SA'}}).then((res)=>{
-    //   console.log(res.data)
-    // })
-  }
 
-  const {
-    formik: { handleSubmit, handleChange, values, setFieldValue,validateForm }
-  } = useForm({ initialValues, submitHandler: AliExpressOrder });
   // *** shipping fees ****
   const totalUnpaidAmount = (amount_included_vat || 0) ;
   // ******end ******
@@ -260,7 +250,7 @@ export default function id() {
                 Customer & shipping details
               </p>
               
-              <form onSubmit={handleSubmit} >
+              <form >
 
                 <Card className="space-y-4">
             <div className="space-y-2">

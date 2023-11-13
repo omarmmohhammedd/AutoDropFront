@@ -45,7 +45,7 @@ export default function create() {
 function GetProductDetails({ setHasData, setProduct }: any) {
   const [errors, setErrors] = useState<any>();
   const [initialValues, setInitialValues] = useState<any>({
-    url: 'https://ar.aliexpress.com/item/1005001930691014.html'
+    url: 'https://ar.aliexpress.com/item/1005006075025503.html'
   });
   const [disabled, setDisabled] = useState<boolean>(false);
   const alert = useAlert();
