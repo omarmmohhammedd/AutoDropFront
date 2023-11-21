@@ -11,7 +11,6 @@ export default function PlanSingleCard({ item }: any) {
   const { user } = useSelector((state: RootState) => state.auth);
   const [disabled, setDisabled] = useState<boolean>(false);
 
-  console.log(user);
 
   async function GetPaymentPage() {
     try {

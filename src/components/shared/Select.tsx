@@ -46,7 +46,7 @@ export default function Select({
       if (type === 'single') {
         onSelect(undefined);
       } else {
-        // console.log(value);
+
         onSelect((value as any[])?.filter((ev) => ev !== val));
       }
     },

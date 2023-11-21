@@ -111,7 +111,6 @@ export default function Dashboard() {
   async function GetDashboard() {
     try {
       const { data } = await axiosInstance.get('dashboard');
-      console.log(data);
       setDashboard(data);
       setCards((_cards) => {
         return _cards.map((card) => {

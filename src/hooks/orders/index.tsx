@@ -32,7 +32,6 @@ export default function useOrdersHooks() {
         setIsLoading(false);
       });
 
-      console.log(isLoading);
 
       rerender = false;
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { motion } from 'framer-motion';
 import { MoveToTop } from 'src/animations';
@@ -55,7 +55,6 @@ export default function index() {
   async function handleFilterSubmit(values: any) {
     try {
       setDisabled(true);
-      console.log(values);
       await GetProducts(values);
     } catch (error) {
     } finally {
@@ -87,10 +86,13 @@ export default function index() {
             <>
               {products.map((item, i) => {
                 return (
+                  
                   <DisplayTableItem
                     item={item}
                     DeleteItem={DeleteItem}
+                    
                   />
+                  
                 );
               })}
             </>

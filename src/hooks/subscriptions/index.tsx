@@ -32,7 +32,7 @@ export default function useSubscriptionsHooks() {
         setIsLoading(false);
       });
 
-      console.log(isLoading);
+  
 
       rerender = false;
     }

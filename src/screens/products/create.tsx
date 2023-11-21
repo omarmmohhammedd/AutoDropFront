@@ -28,21 +28,23 @@ import { RootState } from 'src/store';
 export default function create() {
   const [initialValues, setInitialValues] = useState<any>();
   const [hasData, setHasData] = useState<boolean>(false);
-
+  const [shipping,setShipping] = useState([])
+  
   return (
     <div className="p-8 pt-2 space-y-4">
       <GetProductDetails
         setHasData={setHasData}
         setProduct={setInitialValues}
-      />
-      {initialValues ? <DisplayProductFields product={initialValues} /> : null}
+        setShipping = {setShipping}
+        />
+      {initialValues ? <DisplayProductFields product={initialValues}  shipping = {shipping}/> : null}
 
       {/* <DisplayProductFields product={initialValues} /> */}
     </div>
   );
 }
 
-function GetProductDetails({ setHasData, setProduct }: any) {
+function GetProductDetails({ setHasData, setProduct,setShipping }: any) {
   const [errors, setErrors] = useState<any>();
   const [initialValues, setInitialValues] = useState<any>({
     url: 'https://ar.aliexpress.com/item/1005006075025503.html'
@@ -54,20 +56,20 @@ function GetProductDetails({ setHasData, setProduct }: any) {
     try {
       setDisabled(true);
       setProduct();
-      const { data } = await axiosInstance.post('products/v1/get-details', values);
-      setProduct({ ...data, skus: [] });
+      const { data } = await axiosInstance.post('products/v1/get-details', values)
+      setProduct({ ...data.product, skus: [] });
+      setShipping(data.shipping)
       setHasData(true);
     } catch (error: AxiosError | any) {
       const err = error?.response?.data;
       if (err) {
         if (err.message instanceof Object) return setErrors(err.message);
-        console.log(err)
         alert.show({
           text: err?.message,
           visible: true
         });
       }
-      // console.log(error)
+  
     } finally {
       setDisabled(false);
     }
@@ -127,7 +129,7 @@ interface ProductForm {
   skus: string[];
 }
 
-function DisplayProductFields({ product }: any) {
+export function DisplayProductFields({ product,shipping }: any) {
   const [errors, setErrors] = useState<any>();
   const [initialValues, setInitialValues] = useState<ProductForm>(product);
   const [disabled, setDisabled] = useState<boolean>(false);
@@ -159,15 +161,16 @@ function DisplayProductFields({ product }: any) {
     }
   }
 
+
   async function CreateProduct(values: any) {
     try {
       setDisabled(true);
       setErrors(undefined);
-      const { data } = await axiosInstance.post('products/v1/create', values);
-      console.log(data)
-      // navigate('/products', { replace: true });
-      setResult(data?.result?.urls);
-      setVisible(true);
+       await axiosInstance.post('products/v1/create', values).then(async({data})=>{
+        const {data:result}  = await axiosInstance.post(`products/v1/variant/${data.product.id}`,{productResult : data.productResult,merchant:data.product.merchant})
+        setResult(result?.result?.urls);
+        setVisible(true);
+      })
     } catch (error: AxiosError | any) {
       const err = error.response;
       const _errors = err?.data?.message?.error?.fields;
@@ -188,7 +191,6 @@ function DisplayProductFields({ product }: any) {
 
     const commissionPrice = total * ((vendor_commission || 0) / 100);
     const price = parseFloat((total + commissionPrice).toFixed(2));
-
     setFieldValue('price', price);
     return commissionPrice;
   }, [values.vendor_commission, values.skus]);
@@ -241,6 +243,13 @@ function DisplayProductFields({ product }: any) {
     },
     [values.options]
   );
+
+  const getEiring = (shipCost:number)=>{
+    console.log(shipCost)
+    console.log(GetPriceFromCommission)
+    console.log(product.main_price)
+    return GetPriceFromCommission - (shipCost + (0.07 * (product.main_price + shipCost))) 
+  }
 
   return (
     <Fragment>
@@ -311,7 +320,7 @@ function DisplayProductFields({ product }: any) {
                     name="vendor_commission"
                     onChange={handleChange}
                     min={0}
-                    max={100}
+                    max={1000}
                     step="any"
                     required
                   />
@@ -322,6 +331,7 @@ function DisplayProductFields({ product }: any) {
                     <span className="text-teal-600">
                       {CurrencyFormatter(GetPriceFromCommission)}
                     </span>{' '}
+                    <span className='text-red-600 text-xs'> ( Not Including VAT and Shipping cost )</span>
                   </p>
                   {errors?.vendor_commission ? (
                     <span className="form-error">{errors?.vendor_commission}</span>
@@ -426,7 +436,41 @@ function DisplayProductFields({ product }: any) {
                 );
               })}
             </Card>
+              {
+                shipping.length ?   <Card className="space-y-4">
+                <p className="text-lg font-semibold text-content">Shipping</p>
+                <div className='grid grid-cols-1 lg:grid-cols-2  gap-x-5 items-center justify-around gap-y-5 px-2'>
 
+                
+                {shipping?.map((option: any, index: number) => {
+                  return (
+                    <div style={{border:'2px solid #d1c2c2'}}
+                      className=" flex  flex-col border-gray-500  rounded-lg  gap-y-3"
+                      key={'option-' + index}
+                    >
+                      {
+                            option.service_name === 'CAINIAO_CONSOLIDATION_SA'  ?
+                            <span className='text-white bg-red-500 w-full  text-xs px-3 py-2 rounded-t-lg text-center'> Recommend </span> : null
+                          }
+                      <div className='flex w-full justify-between items-center px-2 pt-2 '>
+                          <div className='flex items-center gap-x-2'>
+                            {option.service_name === 'CAINIAO_CONSOLIDATION_SA'  ?<>
+                            <p className={`text-sm text-gray-600 `} >AliExpress Direct</p>
+                            </>  : option.service_name ===  'CAINIAO_STANDARD' ?<>
+                              <p className={`text-sm text-gray-600 `} >AliExpress Standard Shipping</p></>  :  <p className={`text-sm text-gray-600 `} > { option.service_name }</p>}
+                           
+                          </div>
+                          <p className="text-xs  text-red-500">{CurrencyFormatter(option.freight.amount)}</p>
+                      </div>
+                        <p className="text-xs px-2">Esimated Delivery Days : <span className='text-teal-600'>{option.estimated_delivery_time}</span></p>     
+                        <p className="text-xs px-2 mb-4">Earning from this product based on this shipping methode and 7% VAT will be <span className='text-teal-600'>SAR {getEiring(option.freight.amount)}</span> </p>     
+                    </div>
+                  );
+                })}
+                </div>
+              </Card>
+                 : <div className='flex justify-center items-center text-red-700'>Product Shipping Not Avaliable</div>
+              }
             <Card className="space-y-4">
               <p className="text-lg font-semibold text-content">Images</p>
               <ul className="grid grid-wrapper gap-4">
@@ -476,6 +520,7 @@ function DisplayProductFields({ product }: any) {
                   name="metadata_title"
                   onChange={handleChange}
                   required
+                  maxLength={70}
                 />
                 {errors?.metadata_title ? (
                   <span className="form-error">{errors?.metadata_title}</span>
@@ -491,6 +536,7 @@ function DisplayProductFields({ product }: any) {
                   name="metadata_description"
                   onChange={handleChange}
                   required
+                  maxLength={150}
                 ></textarea>
                 {errors?.metadata_description ? (
                   <span className="form-error">{errors?.metadata_description}</span>

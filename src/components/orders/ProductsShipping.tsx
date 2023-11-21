@@ -37,7 +37,6 @@ export default function ProductsShipping({ order, refetch }: { order: any; refet
     const { value, dataset } = ev.target;
     console.log(dataset)
     const index = order?.items?.findIndex((e: any) => e.product?._id == dataset.productid);
-    order?.items?.map((e:any)=> console.log(e.product._id))
     const object = {
       service_name: dataset?.serviceName,
       product_id: dataset?.productid,
@@ -159,7 +158,6 @@ function Shippings({
       };
       const { data } = await axiosInstance.post('aliexpress/products/shipping', body);
       setShippings((data.result || []).filter((e: any) => {
-        console.log(e)
         if ( e.tracking_available === 'true') {
           return { ...e, amount: Number(e.freight.amount) };
         }

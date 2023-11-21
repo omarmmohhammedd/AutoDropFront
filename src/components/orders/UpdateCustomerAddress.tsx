@@ -31,7 +31,6 @@ export default function UpdateCustomerAddress({ order, refetch,getProvince,citie
   },[order])
   useEffect(()=>{
     setProvinceShip( order?.shipping?.address?.province_en || getProvince(cityShip))
-    console.log(cityShip)
   },[cityShip])
   const {
     formik: { handleSubmit, handleChange, values }
@@ -44,7 +43,6 @@ export default function UpdateCustomerAddress({ order, refetch,getProvince,citie
     try {
       setDisabled(true);
       setErrors(undefined);
-      console.log(val)
       const { status } = await axiosInstance.post('orders/update-address', val);
       if(status === 200){
         setVisible(false)

@@ -15,7 +15,6 @@ export default function SendOrder() {
       setErrors(undefined);
       const { data } = await axiosInstance.post('ae/orders/place-order', { id });
 
-      console.log(data);
     } catch (error: AxiosError | any) {
       const err = error.response;
       if (error instanceof AxiosError) {

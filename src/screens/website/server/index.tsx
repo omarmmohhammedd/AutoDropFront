@@ -40,7 +40,6 @@ export default function index() {
   const alert = useAlert();
   const  uriToken = async()=>{
     await axiosInstance.get('/settings/token').then((res)=>{
-      console.log(res.data.url)
       const newTab = window.open(res.data.url, '_blank');
       newTab?.focus();
       GetItems();
@@ -50,7 +49,6 @@ export default function index() {
   // console.log(initialValues, settings);
   useEffect(() => {
     setInitialValues({ settings });
-    console.log(settings)
   }, [settings]);
 
   async function CreatePlan(values: any, helpers: any) {

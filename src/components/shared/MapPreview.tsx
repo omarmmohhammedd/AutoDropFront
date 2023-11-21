@@ -22,7 +22,7 @@ export default function MapPreview({ lat, lng }: { lat: number; lng: number }) {
   };
 
   function handleApiLoaded(map: any, maps: any) {
-    console.log(map, maps);
+   
   }
 
   return (

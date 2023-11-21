@@ -25,7 +25,6 @@ export default function useOrderHooks() {
     try {
       const { data } = await axiosInstance.get('orders/' + id);
       setOrder(data);
-      console.log(await axiosInstance.get('orders/' + id))
     } catch (error) {}
   }
 
@@ -38,6 +37,5 @@ export default function useOrderHooks() {
       rerender = false;
     }
   }, []);
-  console.log(order)
   return { order, isLoading, GetOrder };
 }

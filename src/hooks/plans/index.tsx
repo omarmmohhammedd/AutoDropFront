@@ -32,7 +32,6 @@ export default function usePlansHooks() {
         setIsLoading(false);
       });
 
-      console.log(isLoading);
 
       rerender = false;
     }

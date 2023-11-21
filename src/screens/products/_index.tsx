@@ -52,7 +52,6 @@ export default function index() {
   async function handleFilterSubmit(values: any) {
     try {
       setDisabled(true);
-      console.log(values);
       await GetProducts(values);
     } catch (error) {
     } finally {

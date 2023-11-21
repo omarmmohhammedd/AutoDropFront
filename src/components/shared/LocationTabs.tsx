@@ -26,7 +26,6 @@ export default function LocationTabs() {
     }
   ];
   const { pathname }: Location = useLocation();
-  console.log(pathname, routes);
 
   return (
     <div className="grid">

@@ -47,7 +47,6 @@ export default function useProductsHooks() {
         setIsLoading(false);
       });
 
-      console.log(isLoading);
 
       rerender = false;
     }

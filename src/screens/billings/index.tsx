@@ -42,7 +42,6 @@ function useHooks() {
       // setPlans(data);
       setTransactions(data.data);
       setPagination(data.pagination);
-      console.log(data);
     } catch (error) {
       console.log('error while getting transactions');
     }
@@ -158,7 +157,6 @@ export default function index() {
 function Slider({ first = 0, second = 0 }: { first: any; second: any }) {
   const percent = useMemo(() => {
     let result: number = 0;
-    // console.log(first, second);
 
     if (typeof first === 'number' && typeof second === 'number') {
       const total = (+first / +second) * 100;

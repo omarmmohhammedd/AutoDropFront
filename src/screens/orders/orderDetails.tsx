@@ -10,7 +10,6 @@ import useOrderHooks from 'src/hooks/orders/id';
 import {useEffect, useState} from 'react'
 export default function OrderDetailss() {
   const [order,setOrder] = useState<any>()
-  console.log('asd')
   useEffect(()=>{
     const {
       isLoading,
@@ -20,10 +19,6 @@ export default function OrderDetailss() {
     setOrder(orderData)
   },[])
   const {GetOrder} = useOrderHooks()
-  console.log(order)
-  useEffect(()=>{
-    console.log(order)
-  },[order])
   const instructions = [
     'Before paying for the order, you must know the shipping details for each product',
     'Check your payment information before paying',

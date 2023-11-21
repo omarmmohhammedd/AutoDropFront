@@ -97,7 +97,7 @@ const SideBar: FC = () => {
   }, [filterRoutes]);
 
   const closeMenuOnMediumScreen = useMemo(() => {
-    console.log('menum');
+
     closeMenu();
   }, [location]);
 

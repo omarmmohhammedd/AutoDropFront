@@ -32,7 +32,7 @@ export default function useUsersHooks() {
         setIsLoading(false);
       });
 
-      console.log(isLoading);
+    
 
       rerender = false;
     }

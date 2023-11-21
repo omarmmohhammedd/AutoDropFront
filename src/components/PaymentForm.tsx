@@ -103,7 +103,6 @@ export default function PaymentForm() {
     //mount element
     card.mount('div[data-type="payment-form"]');
 
-    console.log(card);
 
     card.addEventListener('change', function (event: any) {
       if (event.loaded) {
@@ -130,7 +129,6 @@ export default function PaymentForm() {
         setErrors(result.error);
         return;
       }
-      console.log(result);
       const { data } = await axiosInstance.post('v1/payments/add', { token: result.id, card: result.card });
       alert.show({
         text: data?.message,

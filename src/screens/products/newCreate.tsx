@@ -30,7 +30,6 @@ function GetAliExpressProductDetails() {
       url: 'https://ar.aliexpress.com/item/1005001930691014.html'
     },
     submitHandler(values, formikHelpers) {
-      console.log(values);
       setDisabled(true);
       setProduct(undefined);
       prepareRequest(
@@ -123,7 +122,7 @@ function CreateProductForm({ product }: { product: any }) {
         (response, error) => {
           if (error) return setErrors(() => error);
           generateAlert(response.message, 'success');
-          console.log(response);
+  
         }
       ).finally(() => setDisabled(false));
     }
